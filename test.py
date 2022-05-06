@@ -240,7 +240,7 @@ class Window(QtWidgets.QMainWindow):
         #.Mafoliumrker(location=[63.30, 87.69], popup="", tooltip="").add_to(m)
         folium.Marker(location=[14, 14], popup="", tooltip="").add_to(m)
         folium.Marker(location=[123, 14], popup="", tooltip="").add_to(m)
-        folium.Marker(location=[354, 334], popup="", tooltip="").add_to(m)
+        #folium.Marker(location=[354, 334], popup="", tooltip="").add_to(m)
         # folium.Marker(location=[123, 321], popup="", tooltip="").add_to(m)
         # folium.Marker(location=[14, 14], popup="", tooltip="").add_to(m)
         # folium.Marker(location=[14, 14], popup="", tooltip="").add_to(m)
