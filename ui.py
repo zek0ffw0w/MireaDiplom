@@ -2,14 +2,23 @@ import io
 import sys
 
 import folium
+from PyQt5.QtWidgets import QMessageBox
 
 from PyQt5 import QtCore, QtGui, QtWidgets, QtWebEngineWidgets
+
+import db_connector
+from db_connector import *
 
 
 class Window(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.initWindow()
+
+    def openDialog(self):
+        #      pass
+        dialog = ClssDialog(self)
+        dialog.exec_()
 
     def initWindow(self):
         self.setWindowTitle(self.tr("MAP PROJECT"))
@@ -20,8 +29,6 @@ class Window(QtWidgets.QMainWindow):
         shortPathButton = QtWidgets.QPushButton(self.tr(""))
         shortPathButton.setFixedSize(210, 10)
         shortPathButton.setFlat(False)
-
-
 
         central_widget = QtWidgets.QWidget()
         self.setCentralWidget(central_widget)
@@ -36,7 +43,6 @@ class Window(QtWidgets.QMainWindow):
         self.scrollArea.setGeometry(QtCore.QRect(10, 70, 280, 171))
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
-
 
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 228, 540))
@@ -54,7 +60,7 @@ class Window(QtWidgets.QMainWindow):
         font.setItalic(False)
         font.setUnderline(True)
         self.pushButton_2.setFont(font)
-        self.pushButton_2.setFlat(False)
+        self.pushButton_2.setFlat(True)
         self.pushButton_2.setObjectName("pushButton_2")
         self.gridLayout_2.addWidget(self.pushButton_2, 16, 0, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -66,7 +72,7 @@ class Window(QtWidgets.QMainWindow):
         font.setItalic(False)
         font.setUnderline(True)
         self.pushButton_4.setFont(font)
-        self.pushButton_4.setFlat(False)
+        self.pushButton_4.setFlat(True)
         self.pushButton_4.setObjectName("pushButton_4")
         self.gridLayout_2.addWidget(self.pushButton_4, 14, 0, 1, 1)
         self.pushButton_5 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
@@ -195,7 +201,6 @@ class Window(QtWidgets.QMainWindow):
         self.img.setText("")
         self.img.setObjectName("img")
 
-
         # NAMES TO BUTTONS
         self.pushButton_2.setText(" 8. Бованенковское месторождение")
         self.pushButton_4.setText(" 7. Заполярное месторождение")
@@ -209,44 +214,21 @@ class Window(QtWidgets.QMainWindow):
         self.pushButton_10.setText(" 10. Южно-Русское месторождение")
         self.label.setText("<html><head/><body><p><span style=\" color:#ffffff;\">Выбор объекта</span></p></body></html>")
 
-        # button_container = QtWidgets.QWidget()
-        # vlay = QtWidgets.QVBoxLayout(button_container)
-        #
-        # vlay.setSpacing(20)
-        # vlay.addStretch()
-        # vlay.addWidget(shortPathButton)
-        # # vlay.addWidget(self.pushButton_2)
-        # # vlay.addWidget(self.pushButton_3)
-        # # vlay.addWidget(self.pushButton_4)
-        # # vlay.addWidget(self.pushButton_5)
-        # # vlay.addWidget(self.pushButton_6)
-        # # vlay.addWidget(self.pushButton_7)
-        # # vlay.addWidget(self.pushButton_8)
-        #
-        # vlay.addStretch()
-        # lay.addWidget(button_container)
-        # lay.addWidget(self.scrollArea, stretch=1)
-        # lay.addWidget(self.scrollAreaWidgetContents, stretch=100)
-        # lay.setSpacing(20)
         lay.addWidget(self.view)
-
 
         # ADDING MAP
         m = folium.Map(
             location=[63.30388759323694, 87.6987889680534], zoom_start=2
         )
-        #marker1 = folium.features.CustomIcon("C:/Users/malyc/Desktop/diplom/prog/progimg/marker1.png)", icon_size=(100, 100))
-        #folium.Marker(location=[14,14], icon=marker1).add_to(m)
-        #.Mafoliumrker(location=[63.30, 87.69], popup="", tooltip="").add_to(m)
-        folium.Marker(location=[14, 14], popup="", tooltip="").add_to(m)
-        folium.Marker(location=[123, 14], popup="", tooltip="").add_to(m)
-        # folium.Marker(location=[354, 334], popup="", tooltip="").add_to(m)
-        # folium.Marker(location=[123, 321], popup="", tooltip="").add_to(m)
-        # folium.Marker(location=[14, 14], popup="", tooltip="").add_to(m)
-        # folium.Marker(location=[14, 14], popup="", tooltip="").add_to(m)
-        # folium.Marker(location=[14, 14], popup="", tooltip="").add_to(m)
-        # folium.Marker(location=[14, 14], popup="", tooltip="").add_to(m)
-
+        folium.Marker(location=[54.241330, 136.157046], popup="Проектная мощность — 5,5 млрд куб. м газа в год. Телефон 8-499-123-312", tooltip="").add_to(m)
+        folium.Marker(location=[62.015284, 166.567203], popup="", tooltip="").add_to(m)
+        folium.Marker(location=[69.475530, 115.414859], popup="", tooltip="").add_to(m)
+        folium.Marker(location=[66.088831, 73.227359], popup="", tooltip="").add_to(m)
+        folium.Marker(location=[60.055010, 29.809390], popup="", tooltip="").add_to(m)
+        folium.Marker(location=[66.088831, 73.227359], popup="", tooltip="").add_to(m)
+        folium.Marker(location=[63.308500, 114.360171], popup="", tooltip="").add_to(m)
+        folium.Marker(location=[66.792137, 90.278140], popup="", tooltip="").add_to(m)
+        folium.Marker(location=[69.659777, 159.887515], popup="", tooltip="").add_to(m)
 
         data = io.BytesIO()
         m.save(data, close_file=False)
@@ -254,43 +236,55 @@ class Window(QtWidgets.QMainWindow):
 
         # CHANGING IMG'S
         def btn1_img():
+            print("DEBUG TEST: 10")
             self.img.setStyleSheet("background-image: url(C:/Users/malyc/Desktop/diplom/prog/progimg/1.jpg);")
+            db_connector.connect("localhost", "dip_base_10", "root1", "root")
 
         def btn2_img():
-            print("ez test2")
+            print("DEBUG TEST: 2")
             self.img.setStyleSheet("background-image: url(C:/Users/malyc/Desktop/diplom/prog/progimg/2.jpg);")
+            db_connector.connect("localhost", "dip_base_2", "root1", "root")
 
         def btn3_img():
-            print("ez test3")
+            print("DEBUG TEST: 3")
             self.img.setStyleSheet("background-image: url(C:/Users/malyc/Desktop/diplom/prog/progimg/3.jpg);")
+            db_connector.connect("localhost", "dip_base_3", "root1", "root")
 
         def btn4_img():
-            print("ez test4")
+            print("DEBUG TEST: 4")
             self.img.setStyleSheet("background-image: url(C:/Users/malyc/Desktop/diplom/prog/progimg/4.jpg);")
+            db_connector.connect("localhost", "dip_base_4", "root1", "root")
 
         def btn5_img():
-            print("ez test5")
+            print("DEBUG TEST: 5")
             self.img.setStyleSheet("background-image: url(C:/Users/malyc/Desktop/diplom/prog/progimg/5.jpg);")
+            db_connector.connect("localhost", "dip_base_5", "root1", "root")
 
         def btn6_img():
-            print("ez test6")
+            print("DEBUG TEST: 6")
             self.img.setStyleSheet("background-image: url(C:/Users/malyc/Desktop/diplom/prog/progimg/6.jpg);")
+            db_connector.connect("localhost", "dip_base_6", "root1", "root")
 
         def btn7_img():
-            print("ez test7")
+            print("DEBUG TEST: 7")
             self.img.setStyleSheet("background-image: url(C:/Users/malyc/Desktop/diplom/prog/progimg/7.jpg);")
+            db_connector.connect("localhost", "dip_base_7", "root1", "root")
 
         def btn8_img():
-            print("ez test8")
+            print("DEBUG TEST: 8")
             self.img.setStyleSheet("background-image: url(C:/Users/malyc/Desktop/diplom/prog/progimg/8.jpg);")
+            db_connector.connect("localhost", "dip_base_8", "root1", "root")
 
         def btn9_img():
-            print("ez test9")
+            print("DEBUG TEST: 9")
             self.img.setStyleSheet("background-image: url(C:/Users/malyc/Desktop/diplom/prog/progimg/9.jpg);")
+            db_connector.connect("localhost", "dip_base_9", "root1", "root")
 
         def btn10_img():
-            print("ez test10")
+            print("DEBUG TEST: 1")
             self.img.setStyleSheet("background-image: url(C:/Users/malyc/Desktop/diplom/prog/progimg/10.jpg);")
+            db_connector.connect("localhost", "dip_base_1", "root1", "root")
+            # QMessageBox.critical(self, "Обнаружено превышение значения на датчике", "Датчик - значение")
 
         self.pushButton_2.clicked.connect(btn1_img)
         self.pushButton_3.clicked.connect(btn2_img)
@@ -302,12 +296,64 @@ class Window(QtWidgets.QMainWindow):
         self.pushButton_9.clicked.connect(btn8_img)
         self.pushButton_10.clicked.connect(btn9_img)
         self.pushButton.clicked.connect(btn10_img)
+        self.pushButton.clicked.connect(self.openDialog)
+        self.pushButton_2.clicked.connect(self.openDialog)
+        self.pushButton_3.clicked.connect(self.openDialog)
+        self.pushButton_4.clicked.connect(self.openDialog)
+        self.pushButton_5.clicked.connect(self.openDialog)
+        self.pushButton_6.clicked.connect(self.openDialog)
+        self.pushButton_7.clicked.connect(self.openDialog)
+        self.pushButton_8.clicked.connect(self.openDialog)
+        self.pushButton_9.clicked.connect(self.openDialog)
+        self.pushButton_10.clicked.connect(self.openDialog)
+
 
 stylesheet = """
         QMainWindow {
             background-image: url("C:/Users/malyc/Desktop/diplom/prog/progimg/back.jpg");
         }
      """
+
+
+class ClssDialog(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super(ClssDialog, self).__init__(parent)
+
+
+
+        self.verticalLayout = QtWidgets.QVBoxLayout(self)
+        self.verticalLayout.setObjectName("verticalLayout")
+
+        self.label = QtWidgets.QLabel(self)
+        self.label.setText("Обнаружено превышение значения на датчике: Датчик: gas_detector - 115")
+        self.verticalLayout.addWidget(self.label)
+
+        self.pushButton = QtWidgets.QPushButton(self)
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.btnClosed)
+        self.verticalLayout.addWidget(self.pushButton)
+        self.setWindowTitle("Обнаружен датчик с повышенным значением")
+        self.pushButton.setText("Ручное управление")
+
+        self.pushButton1 = QtWidgets.QPushButton(self)
+        self.pushButton1.setObjectName("pushButton1")
+        self.pushButton1.clicked.connect(self.btnClosed)
+        self.verticalLayout.addWidget(self.pushButton1)
+        self.pushButton1.setText("Сигнал сотрудникам о попытке самостоятельно локально потушить")
+
+        self.pushButton2 = QtWidgets.QPushButton(self)
+        self.pushButton2.setObjectName("pushButton2")
+        self.pushButton2.clicked.connect(self.btnClosed)
+        self.verticalLayout.addWidget(self.pushButton2)
+        self.pushButton2.setText("Вызвать 112")
+
+    def btnClosed(self):
+        self.close()
+
+
+def alerter(self, name_catch, value_catch):
+    QMessageBox.critical(self, "Обнаружено превышение значения на датчике", "Датчик", name_catch, " - ", value_catch)
+
 
 if __name__ == "__main__":
     App = QtWidgets.QApplication(sys.argv)
